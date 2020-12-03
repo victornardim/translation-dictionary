@@ -1,0 +1,14 @@
+<div class="{{ alert.type }} {{ class }} rounded p-3 row"
+     (mouseenter)="mouseIn()"
+     (mouseleave)="mouseOut()">
+    <div class="col-md-11">
+        <i class="{{ getTypeIcon() }} mr-2"></i>
+        <span id="alert-message">
+            {{ alert.message }}
+        </span>
+    </div>
+    <div class="col-md-1">
+        <button (click)="close()"
+                class="close float-right">&times;</button>
+    </div>
+</div>

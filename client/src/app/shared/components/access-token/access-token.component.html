@@ -1,0 +1,26 @@
+<button id="btn-token"
+        class="btn btn-primary mr-4"
+        [ngbPopover]="accessTokenPopoverContent"
+        placement="left-bottom"
+        container="body"
+        autoClose="outside">
+    <i class="fas fa-key mr-1"></i>
+    Token de acesso
+</button>
+
+<form [formGroup]="form">
+    <ng-template #accessTokenPopoverContent>
+        <input id="input-token"
+               formControlName="token"
+               class="form-control"
+               placeholder="Insira o token de acesso"
+               type="text">
+
+        <button class="btn btn-outline-success btn-block mt-1"
+                (click)="save()"
+                [disabled]="form.invalid || disabled">
+            <i class="fas fa-save mr-1"></i>
+            Salvar
+        </button>
+    </ng-template>
+</form>

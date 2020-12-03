@@ -1,0 +1,137 @@
+<app-loading-bar *ngIf="loading">
+</app-loading-bar>
+
+<div class="content p-3">
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-success mb-3"
+                    (click)="openNewExpressionModal()"
+                    [disabled]="!validToken">
+                <i class="fas fa-plus mr-1"></i>
+                Nova tradução
+            </button>
+        </div>
+    </div>
+
+    <form [formGroup]="filterForm">
+        <div id="filter-content"
+             class="row pb-3">
+            <div class="col-md-6 mr-n3">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span id="language-input-icon"
+                              class="input-group-text">
+                            <i class="fas fa-language"></i>
+                        </span>
+                    </div>
+                    <ng-select formControlName="languages"
+                               [items]="languages"
+                               bindLabel="name"
+                               bindValue="abbreviation"
+                               [closeOnSelect]="false"
+                               [multiple]="true"
+                               (change)="changeLanguages($event)"
+                               (clear)="removeAllLanguages()"
+                               class="language-select"
+                               placeholder="Selecione os idiomas para traduzir"
+                               notFoundText="Nenhum idioma encontrado">
+                        <ng-template ng-multi-label-tmp
+                                     let-items="items"
+                                     let-clear="clear">
+                            <div class="ng-value"
+                                 *ngFor="let item of items | slice:0:2">
+                                <span class="ng-value-label">
+                                    <img *ngIf="!!item.country"
+                                         src="https://www.countryflags.io/{{ item.country }}/flat/32.png"
+                                         class="mr-2">
+                                    {{ item.name }}
+                                </span>
+                                <span class="ng-value-icon right"
+                                      (click)="clear(item)">×</span>
+                            </div>
+                            <div class="ng-value"
+                                 *ngIf="items.length > 2">
+                                <span class="ng-value-label">{{ items.length - 2 }} mais...</span>
+                            </div>
+                        </ng-template>
+
+                        <ng-template ng-option-tmp
+                                     let-item="item">
+                            <img src="https://www.countryflags.io/{{item.country}}/flat/32.png"
+                                 class="mr-2">
+                            {{item.name}}
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span id="filter-input-icon"
+                              class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                    <input formControlName="filter"
+                           type="text"
+                           class="form-control"
+                           placeholder="Procure entre as {{ expressionsCount }} expressões disponíveis"
+                           appDebounce
+                           (debounceCallback)="filter()"
+                           debounceEvent="keydown"
+                           debounceDelay="700">
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="translations-container">
+        <app-expressions-table [expressions]="expressions$ | async"
+                               [selectedLanguages]="selectedLanguages"
+                               [isFiltering]="filtering"
+                               (edit)="edit($event)"
+                               (delete)="delete($event)"
+                               (showDetails)="openDetailsModal($event)"
+                               (changeOrdering)="changeTableOrder($event)">
+        </app-expressions-table>
+    </div>
+
+    <form [formGroup]="filterForm">
+        <div id="navigation"
+             class="row pt-4">
+            <ngb-pagination class="mr-2"
+                            [page]="page"
+                            [pageSize]="pageSize"
+                            [collectionSize]="expressionsCount"
+                            [maxSize]="5"
+                            [boundaryLinks]="true"
+                            [disabled]="!validToken"
+                            (pageChange)="changePage($event)">
+            </ngb-pagination>
+
+            <ng-select formControlName="pageSize"
+                       [items]="allowedPageSizes"
+                       [clearable]="false"
+                       [searchable]="false"
+                       bindLabel="description"
+                       bindValue="value"
+                       class="mr-2"
+                       (change)="changePageSize()">
+            </ng-select>
+        </div>
+    </form>
+</div>
+
+<ng-template #newExpressionModal
+             let-modal>
+    <app-expressions-form-modal [isEditing]="editing"
+                                [languages]="languages"
+                                (save)="save($event)">
+    </app-expressions-form-modal>
+</ng-template>
+
+<ng-template #expressionDetailsModal
+             let-modal>
+    <app-expression-details></app-expression-details>
+</ng-template>

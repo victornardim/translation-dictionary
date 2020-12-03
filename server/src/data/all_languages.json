@@ -1,0 +1,277 @@
+[
+    {
+        "name": "Espanhol",
+        "abbreviation": "es",
+        "country": ""
+    },
+    {
+        "name": "Inglês (U.S.)",
+        "abbreviation": "en",
+        "country": ""
+    },
+    {
+        "name": "Inglês (U.K.)",
+        "abbreviation": "en-GB",
+        "country": ""
+    },
+    {
+        "name": "Amárico",
+        "abbreviation": "am",
+        "country": ""
+    },
+    {
+        "name": "Árabe",
+        "abbreviation": "ar",
+        "country": ""
+    },
+    {
+        "name": "Basco",
+        "abbreviation": "eu",
+        "country": ""
+    },
+    {
+        "name": "Bengali",
+        "abbreviation": "bn",
+        "country": ""
+    },
+    {
+        "name": "Búlgaro",
+        "abbreviation": "bg",
+        "country": ""
+    },
+    {
+        "name": "Catalão",
+        "abbreviation": "ca",
+        "country": ""
+    },
+    {
+        "name": "Cherokee",
+        "abbreviation": "chr",
+        "country": ""
+    },
+    {
+        "name": "Croata",
+        "abbreviation": "hr",
+        "country": ""
+    },
+    {
+        "name": "Checo",
+        "abbreviation": "cs",
+        "country": ""
+    },
+    {
+        "name": "Dinamarquês",
+        "abbreviation": "da",
+        "country": ""
+    },
+    {
+        "name": "Holandês",
+        "abbreviation": "nl",
+        "country": ""
+    },
+    {
+        "name": "Estoniano",
+        "abbreviation": "et",
+        "country": ""
+    },
+    {
+        "name": "Filipino",
+        "abbreviation": "fil",
+        "country": ""
+    },
+    {
+        "name": "Finlandês",
+        "abbreviation": "fi",
+        "country": ""
+    },
+    {
+        "name": "Francês",
+        "abbreviation": "fr",
+        "country": ""
+    },
+    {
+        "name": "Alemão",
+        "abbreviation": "de",
+        "country": ""
+    },
+    {
+        "name": "Grego",
+        "abbreviation": "el",
+        "country": ""
+    },
+    {
+        "name": "Guzerate",
+        "abbreviation": "gu",
+        "country": ""
+    },
+    {
+        "name": "Hebraico",
+        "abbreviation": "iw",
+        "country": ""
+    },
+    {
+        "name": "Hindi",
+        "abbreviation": "hi",
+        "country": ""
+    },
+    {
+        "name": "Húngaro",
+        "abbreviation": "hu",
+        "country": ""
+    },
+    {
+        "name": "Islandês",
+        "abbreviation": "is",
+        "country": ""
+    },
+    {
+        "name": "Indonésio",
+        "abbreviation": "id",
+        "country": ""
+    },
+    {
+        "name": "Italiano",
+        "abbreviation": "it",
+        "country": ""
+    },
+    {
+        "name": "Japonês",
+        "abbreviation": "ja",
+        "country": ""
+    },
+    {
+        "name": "Canarim",
+        "abbreviation": "kn",
+        "country": ""
+    },
+    {
+        "name": "Coreano",
+        "abbreviation": "ko",
+        "country": ""
+    },
+    {
+        "name": "Letão",
+        "abbreviation": "lv",
+        "country": ""
+    },
+    {
+        "name": "Lituano",
+        "abbreviation": "lt",
+        "country": ""
+    },
+    {
+        "name": "Malaio",
+        "abbreviation": "ms",
+        "country": ""
+    },
+    {
+        "name": "Malayalam",
+        "abbreviation": "ml",
+        "country": ""
+    },
+    {
+        "name": "Marati",
+        "abbreviation": "mr",
+        "country": ""
+    },
+    {
+        "name": "Norueguês",
+        "abbreviation": "no",
+        "country": ""
+    },
+    {
+        "name": "Polonês",
+        "abbreviation": "pl",
+        "country": ""
+    },
+    {
+        "name": "Português (Portugal)",
+        "abbreviation": "pt-PT",
+        "country": ""
+    },
+    {
+        "name": "Romeno",
+        "abbreviation": "ro",
+        "country": ""
+    },
+    {
+        "name": "Russo",
+        "abbreviation": "ru",
+        "country": ""
+    },
+    {
+        "name": "Sérvio",
+        "abbreviation": "sr",
+        "country": ""
+    },
+    {
+        "name": "Chinês",
+        "abbreviation": "zh-CN",
+        "country": ""
+    },
+    {
+        "name": "Eslovaco",
+        "abbreviation": "sk",
+        "country": ""
+    },
+    {
+        "name": "Esloveno",
+        "abbreviation": "sl",
+        "country": ""
+    },
+    {
+        "name": "Suaíli",
+        "abbreviation": "sw",
+        "country": ""
+    },
+    {
+        "name": "Sueco",
+        "abbreviation": "sv",
+        "country": ""
+    },
+    {
+        "name": "Tâmil",
+        "abbreviation": "ta",
+        "country": ""
+    },
+    {
+        "name": "Telugu",
+        "abbreviation": "te",
+        "country": ""
+    },
+    {
+        "name": "Tailandês",
+        "abbreviation": "th",
+        "country": ""
+    },
+    {
+        "name": "Chinês (Taiwan)",
+        "abbreviation": "zh-TW",
+        "country": ""
+    },
+    {
+        "name": "Turco",
+        "abbreviation": "tr",
+        "country": ""
+    },
+    {
+        "name": "Urdu",
+        "abbreviation": "ur",
+        "country": ""
+    },
+    {
+        "name": "Ucraniano",
+        "abbreviation": "uk",
+        "country": ""
+    },
+    {
+        "name": "Vietnamita",
+        "abbreviation": "vi",
+        "country": ""
+    },
+    {
+        "name": "Galês",
+        "abbreviation": "cy",
+        "country": ""
+    }
+]

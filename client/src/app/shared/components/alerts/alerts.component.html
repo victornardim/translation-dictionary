@@ -1,0 +1,8 @@
+<div id="alerts-container"
+     class="position-fixed m-3 mr-4 col-md-4">
+   <div *ngFor="let alert of alerts">
+      <app-alert [alert]="alert"
+                 (dismiss)="close(alert)">
+      </app-alert>
+   </div>
+</div>

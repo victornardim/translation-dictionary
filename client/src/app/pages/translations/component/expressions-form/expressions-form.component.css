@@ -1,0 +1,66 @@
+#modal-body {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.language-select {
+    float: left;
+    width: 35%;
+    max-width: 250px;
+}
+
+.description-input {
+    width: 100%;
+}
+
+.translation-input {
+    flex: 1;
+    border-radius: .25rem;
+}
+
+#translation-buttons {
+    height: min-content !important;
+    align-items: baseline;
+}
+
+.modal-footer span {
+    margin-right: auto;
+}
+
+.input-label {
+    margin-bottom: -.25rem !important;
+    font-weight: bold;
+    font-size: small;
+}
+
+.invalid-form-input {
+    border-color: #ff6363;
+}
+
+.ng-select.invalid-form-input ::ng-deep .ng-select-container  {            
+    border-color: #ff6363;
+}
+
+.invalid-form-explain {
+    margin-top: 5px;
+    margin-left: 5px;
+    color: #ff6363;
+    font-size: 12px;
+}
+
+#required-explain {
+    font-size: small;
+    align-content: flex-start;
+}
+
+div.modal-footer {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+#footer-buttons {
+    display: flex;
+    flex: 1;
+    align-items: center;
+}

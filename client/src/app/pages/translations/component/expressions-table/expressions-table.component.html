@@ -1,0 +1,200 @@
+<table id="translations"
+       class="table table-striped"
+       [ngStyle]="{ 'width': getTableWidth() }">
+    <thead>
+        <tr>
+            <th scope="col"
+                class="vertical-align-middle">
+                <button id="btn-change-ordering"
+                        (click)="changeTableOrder()"
+                        class="btn mr-1"
+                        title="Alterar ordenação"
+                        appDebounce
+                        (debounceCallback)="onChangeTableOrder()"
+                        debounceEvent="click"
+                        debounceDelay="700"
+                        [disabled]="!expressions?.length">
+                    <i [class]="getOrderIcon()"></i>
+                </button>
+                <span class="vertical-align-middle">
+                    Expressão
+                </span>
+            </th>
+            <th scope="col"
+                *ngFor="let language of selectedLanguages">
+                <img src="https://www.countryflags.io/{{language.country}}/flat/32.png"
+                     class="pr-2">
+
+                {{language.name}}
+            </th>
+            <th colspan="1">
+                &nbsp;
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngIf="isAppOffline()">
+            <tr>
+                <td [attr.colspan]="selectedLanguages.length + 2"
+                    class="text-center">
+                    <span>
+                        <i class="fas fa-sad-cry fa-2x mr-2 base-icon-color"></i>
+                        <span class="vertical-align-middle-aside-icon">
+                            Xiii! Parece que servidor está offline, tente atualizar a página daqui alguns instantes
+                        </span>
+                    </span>
+                </td>
+            </tr>
+        </ng-container>
+        <ng-container *ngIf="isAppWithInvalidToken()">
+            <tr>
+                <td [attr.colspan]="selectedLanguages.length + 2"
+                    class="text-center">
+                    <span>
+                        <i class="fas fa-tired fa-2x mr-2 base-icon-color"></i>
+                        <span class="vertical-align-middle-aside-icon">
+                            Opa! Parece que seu token de acesso está inválido
+                        </span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td [attr.colspan]="selectedLanguages.length + 2"
+                    class="text-center">
+                    <span class="vertical-align-middle-aside-icon">
+                        Assim que você possuir um válido, é só clicar ali no botão
+                        <label class="btn-sm btn-primary mx-2 fake-button disabled">
+                            <i class="fas fa-key mr-2"></i>
+                            Token de acesso
+                        </label>
+                        e inserir um novo
+                        <i class="fas fa-smile-wink fa-2x ml-2 base-icon-color"></i>
+                    </span>
+                </td>
+            </tr>
+        </ng-container>
+        <ng-container *ngIf="isAppOnline()">
+            <tr *ngIf="!expressions">
+                <td [attr.colspan]="selectedLanguages.length + 2">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-grow p-2"
+                             role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <ng-container *ngIf="!expressions?.length && !isFiltering">
+                <tr>
+                    <td [attr.colspan]="selectedLanguages.length + 2"
+                        class="text-center">
+                        <span>
+                            <i class="fas fa-grimace fa-2x mr-2 base-icon-color"></i>
+                            <span class="vertical-align-middle-aside-icon">
+                                Então... Nenhuma tradução aqui por enquanto
+                            </span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td [attr.colspan]="selectedLanguages.length + 2"
+                        class="text-center">
+                        <span class="vertical-align-middle-aside-icon">
+                            Que tal incluir uma nova clicando no botão
+                            <label class="btn-sm btn-success mx-2 fake-button disabled">
+                                <i class="fas fa-plus mr-2"></i>
+                                Nova tradução
+                            </label>
+                            ali em cima?
+                            <i class="fas fa-smile-wink fa-2x ml-2 base-icon-color"></i>
+                        </span>
+                    </td>
+                </tr>
+            </ng-container>
+            <tr *ngIf="!expressions?.length && isFiltering">
+                <td [attr.colspan]="selectedLanguages.length + 2"
+                    class="text-center">
+                    <span>
+                        <i class="fas fa-dizzy fa-2x mr-2 base-icon-color"></i>
+                        <span class="vertical-align-middle-aside-icon">
+                            Xiii! Nenhuma expressão ou tradução deu match com seu filtro
+                        </span>
+                    </span>
+                </td>
+            </tr>
+            <tr *ngFor="let expression of expressions">
+                <td class="vertical-align-middle">
+                    <span [title]="expression.value">
+                        <img src="https://www.countryflags.io/{{ expression.sourceLanguage.country }}/flat/32.png"
+                             [title]="expression.sourceLanguage.name"
+                             class="pr-2">
+                        {{ expression.value }}
+                    </span>
+                </td>
+                <td *ngFor="let language of selectedLanguages"
+                    class="vertical-align-middle">
+                    <span *ngIf="haveTranslation(expression, language) then filledTranslation; else emptyTranslation">
+                    </span>
+                    <ng-template #filledTranslation>
+                        <div>
+                            <strong>
+                                Singular:
+                            </strong>
+                            <span [title]="getSingular(expression, language)">
+                                {{ getSingular(expression, language) }}
+                            </span>
+                        </div>
+                        <div *ngIf="havePlural(expression, language)">
+                            <strong>
+                                Plural:
+                            </strong>
+                            <span [title]="getPlural(expression, language)">
+                                {{ getPlural(expression, language) }}
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template #emptyTranslation>
+                        <span>
+                            <i class="fas fa-sad-tear fa-2x mr-2 base-icon-color"></i>
+                            <span class="vertical-align-middle-aside-icon">
+                                Ops! Tradução não disponível
+                            </span>
+                        </span>
+                    </ng-template>
+                </td>
+                <td class="text-center buttons-row"
+                    *ngIf="expressions?.length">
+                    <div class="btn-group">
+                        <label class="btn-sm btn-secondary"
+                               ngbButtonLabel>
+                            <button class="btn btn-sm"
+                                    (click)="onShowDetails(expression)"
+                                    title="Exibir detalhes da expressão">
+                                <i class="fas fa-eye mr-1"></i>
+                                Detalhes
+                            </button>
+                        </label>
+                        <label class="btn-sm btn-primary"
+                               ngbButtonLabel>
+                            <button class="btn btn-sm"
+                                    (click)="onEditExpression(expression)"
+                                    title="Editar expressão">
+                                <i class="fas fa-pencil-alt mr-1"></i>
+                                Editar
+                            </button>
+                        </label>
+                        <label class="btn-sm btn-danger"
+                               ngbButtonLabel>
+                            <button class="btn btn-sm"
+                                    (click)="onDeleteExpression(expression)"
+                                    title="Excluir expressão">
+                                <i class="fas fa-trash mr-1"></i>
+                                Excluir
+                            </button>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>

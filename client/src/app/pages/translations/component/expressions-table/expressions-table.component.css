@@ -1,0 +1,42 @@
+#translations tr td {
+    font-size: small;
+    width: 300px;
+    padding: 10px;
+}
+
+#translations tr td button {
+    padding: 0;
+}
+
+#translations tr th {
+    font-size: small;
+    width: 300px;
+}
+
+#btn-change-ordering {
+    padding: 0;
+}
+
+.buttons-row {
+    width: 150px !important;
+}
+
+.buttons-row .btn-group {
+    vertical-align: text-top;
+}
+
+.buttons-row label {
+    margin: 0 !important;
+}
+
+.buttons-row button {
+    color: #FFF
+}
+
+div.spinner {
+    width: 2rem; height: 2rem;
+}
+
+.fake-button {
+    padding: 6px 8px;
+}

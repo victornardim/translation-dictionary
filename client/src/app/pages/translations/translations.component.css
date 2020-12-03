@@ -1,0 +1,52 @@
+#filter-content {
+    height: 62px;
+}
+
+#filter-content input[type="text"] {
+    height: 46px;
+}
+
+#translations-container {
+    min-height: 355px;
+}
+
+#navigation {
+    padding-left: 15px;
+}
+
+#navigation ng-select {
+    width: 210px;
+}
+
+#input-token {
+    width: 200px;
+}
+
+span.input-group-text {
+    width: 60px;
+}
+
+span.input-group-text i {
+    margin: auto;
+}
+
+#language-input-icon {
+    font-size: 25px;
+}
+
+#filter-input-icon {
+    font-size: 20px;
+}
+
+.ng-select.language-select {
+    flex: 1;
+}
+
+.ng-select.language-select ::ng-deep .ng-select-container  {
+    height: 46px;
+    line-height: 34px;
+}
+
+.ng-select ::ng-deep .ng-select-container .ng-placeholder  {            
+    color: #6c757d;
+}

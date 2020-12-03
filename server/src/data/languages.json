@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Espanhol",
+        "abbreviation": "es",
+        "country": "es"
+    },
+    {
+        "name": "Inglês (E.U.A.)",
+        "abbreviation": "en",
+        "country": "us"
+    },
+    {
+        "name": "Inglês (U.K.)",
+        "abbreviation": "en-GB",
+        "country": "gb"
+    },
+    {
+        "name": "Francês",
+        "abbreviation": "fr",
+        "country": "fr"
+    },
+    {
+        "name": "Português (Brasil)",
+        "abbreviation": "pt-BR",
+        "country": "br"
+    }
+]

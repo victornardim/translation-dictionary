@@ -1,0 +1,208 @@
+<div class="modal-header">
+    <h4 class="modal-title"
+        id="modal-basic-title"
+        *ngIf="!isEditing">Nova tradução</h4>
+    <h4 class="modal-title"
+        id="modal-basic-title"
+        *ngIf="isEditing">Editar tradução</h4>
+    <button type="button"
+            class="close"
+            (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form [formGroup]="form">
+    <div id="modal-body"
+         class="modal-body">
+        <div class="input-group">
+            <div class="language-select">
+                <label class="input-label">Idioma de origem *</label>
+                <ng-select formControlName="sourceLanguage"
+                           [items]="selectedLanguages"
+                           bindLabel="name"
+                           bindValue="abbreviation"
+                           placeholder="Selecione o idioma de origem"
+                           appendTo="body"
+                           [clearable]="false"
+                           notFoundText="Nenhum idioma encontrado"
+                           [ngClass]="getFormFieldClass(form, 'sourceLanguage')"
+                           (change)="changeLanguageSelect()">
+                    <ng-template ng-label-tmp
+                                 let-item="item"
+                                 let-clear="clear">
+                        <span class="ng-value-label">
+                            <img src="https://www.countryflags.io/{{item.country}}/flat/32.png"
+                                 class="mr-2">
+                            {{item.name}}
+                        </span>
+                    </ng-template>
+
+                    <ng-template ng-option-tmp
+                                 let-item="item">
+                        <img src="https://www.countryflags.io/{{item.country}}/flat/32.png"
+                             class="mr-2">
+                        {{item.name}}
+                    </ng-template>
+                </ng-select>
+                <div class="invalid-form-explain"
+                     *ngIf="formFieldHaveErrors(form, 'sourceLanguage')">
+                    O idioma de origem é obrigatório.
+                </div>
+            </div>
+            <div class="translation-input ml-1">
+                <label class="input-label">Expressão original *</label>
+                <input #expressionInput
+                       ngbAutoFocus
+                       formControlName="expression"
+                       class="form-control"
+                       placeholder="Digite aqui a expressão original"
+                       type="text"
+                       [ngClass]="getFormFieldClass(form, 'expression')">
+                <div class="invalid-form-explain"
+                     *ngIf="formFieldHaveErrors(form, 'expression')">
+                    A expressão é obrigatória.
+                </div>
+            </div>
+            <div class="description-input mt-2">
+                <label class="input-label">Descrição da expressão</label>
+                <textarea formControlName="description"
+                          class="form-control"
+                          placeholder="Digite aqui a descrição da expressão"
+                          type="text"
+                          [ngClass]="getFormFieldClass(form, 'description')">
+                </textarea>
+            </div>
+        </div>
+        <div id="new-translations">
+            <div formArrayName="translations"
+                 class="mt-2 input-group"
+                 *ngFor="let translationInput of getTranslationsFormArray().controls; index as i">
+                <ng-container [formGroupName]="i">
+                    <div class="language-select">
+                        <label class="input-label">Idioma da tradução *</label>
+                        <ng-select formControlName="language"
+                                   [items]="selectedLanguages"
+                                   bindLabel="name"
+                                   bindValue="abbreviation"
+                                   placeholder="Selecione o idioma"
+                                   appendTo="body"
+                                   [clearable]="false"
+                                   notFoundText="Nenhum idioma encontrado"
+                                   [ngClass]="getFormFieldClass(translationInput, 'language')"
+                                   (change)="changeLanguageSelect()">
+                            <ng-template ng-label-tmp
+                                         let-item="item"
+                                         let-clear="clear">
+                                <span class="ng-value-label">
+                                    <img src="https://www.countryflags.io/{{item.country}}/flat/32.png"
+                                         class="mr-2">
+                                    {{item.name}}
+                                </span>
+                            </ng-template>
+
+                            <ng-template ng-option-tmp
+                                         let-item="item">
+                                <img src="https://www.countryflags.io/{{item.country}}/flat/32.png"
+                                     class="mr-2">
+                                {{item.name}}
+                            </ng-template>
+                        </ng-select>
+                        <div class="invalid-form-explain"
+                             *ngIf="formFieldHaveErrors(translationInput, 'language')">
+                            O idioma é obrigatório.
+                        </div>
+                    </div>
+
+                    <div class="translation-input ml-1">
+                        <span *ngIf="!translationHavePlural(i) then translationLabel; else singularLabel">
+                        </span>
+
+                        <ng-template #translationLabel>
+                            <label class="input-label">Tradução *</label>
+                        </ng-template>
+                        <ng-template #singularLabel>
+                            <label class="input-label">Singular *</label>
+                        </ng-template>
+
+                        <input formControlName="translation"
+                               type="text"
+                               class="form-control"
+                               [ngClass]="getFormFieldClass(translationInput, 'translation')"
+                               [placeholder]="getTranslationInputPlaceholder(i)">
+                        <div class="invalid-form-explain"
+                             *ngIf="formFieldHaveErrors(translationInput, 'translation')">
+                            <span
+                                  *ngIf="!translationHavePlural(i) then translationRequiredExplain; else singularRequiredExplain"></span>
+                            <ng-template #translationRequiredExplain>A tradução é obrigatória.</ng-template>
+                            <ng-template #singularRequiredExplain>O singular é obrigatório.</ng-template>
+                        </div>
+                    </div>
+
+                    <div class="translation-input ml-1"
+                         *ngIf="translationHavePlural(i)">
+                        <label class="input-label">Plural *</label>
+                        <input formControlName="plural"
+                               type="text"
+                               class="form-control"
+                               placeholder="Plural"
+                               [ngClass]="getFormFieldClass(translationInput, 'plural')">
+                        <div class="invalid-form-explain"
+                             *ngIf="formFieldHaveErrors(translationInput, 'plural')">
+                            O plural é obrigatório.
+                        </div>
+                    </div>
+
+                    <div class="translation-buttons pt-4">
+                        <div class="btn-group btn-group-toggle ml-1">
+                            <label class="btn-outline-primary"
+                                   ngbButtonLabel>
+                                <input type="checkbox"
+                                       formControlName="havePlural"
+                                       ngbButton> Tem plural?
+                            </label>
+                        </div>
+                        <button class="btn btn-success ml-1"
+                                (click)="createNewTranslation()">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="btn btn-danger ml-1"
+                                *ngIf="getTranslationsFormArray().controls.length > 1"
+                                (click)="removeNewTranslation(i)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="w-100 pb-3 mt-n1">
+            <strong id="required-explain">
+                * Campos obrigatórios
+            </strong>
+        </div>
+
+        <div id="footer-buttons"
+             class="w-100">
+            <span>
+                <div class="custom-control custom-switch"
+                     *ngIf="!isEditing">
+                    <input formControlName="keepInserting"
+                           type="checkbox"
+                           class="custom-control-input"
+                           id="switchKeepInserting">
+                    <label class="custom-control-label"
+                           for="switchKeepInserting">Continuar cadastrando</label>
+                </div>
+            </span>
+            <button type="button"
+                    class="btn btn-outline-success mr-2"
+                    [disabled]="form.invalid"
+                    (click)="onSave()">
+                <i class="fas fa-save mr-1"></i>
+                Salvar
+            </button>
+        </div>
+    </div>
+</form>
