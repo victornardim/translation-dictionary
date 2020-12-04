@@ -3,6 +3,36 @@ An app for an internal control of foreign sentences.
 
 Ideal for personal use/study or teams with diversity, where the members don't speak fluently the team main language.
 
+
+## How it works?
+
+* First of all you will need an access token to use the app. Set it into the text field located in the access token button, and if your token is valid, *voilà*, the app is enabled to use :grin:.
+
+* Add new expressions with how many translations you like, in the languages you want. Optionally you can set the singular and plural of the translation, if the plural is irregular.
+
+**e.g.:**
+```
+| Singular | Plural |
+|----------|--------|
+| Wolf     | Wolves |
+| Man      | Men    |
+| Foot     | Feet   |
+| Fish     | Fish   |
+```
+
+<br />
+
+* Select the languages you want to see the translations in the main table, or simply click on the details button, and see the description of the expression, and all the translations in all the languages it has.
+
+* Filter by the expression or the translation. The filter is not case-sensitive, but is accent-sensitive.
+
+**e.g.:**
+```
+wOlVeS === Wolves  
+secretária !== secretaria  
+vOiLà === voilà
+```
+
 <br />
 
 ### Technologies used
@@ -24,10 +54,10 @@ Ideal for personal use/study or teams with diversity, where the members don't sp
 
 If it is the first execution, you must follow this steps:
 1. cd client
-2. npm install
-3. npm start
-4. cd ../server
-5. npm install
-6. touch ./src/database/database.sqlite
-7. ts-node-dev ./node_modules/typeorm/cli.js migration:run
-8. npm run dev
+1. npm install
+1. npm start
+1. cd ../server
+1. npm install
+1. touch ./src/database/database.sqlite
+1. ts-node-dev ./node_modules/typeorm/cli.js migration:run
+1. npm run dev
