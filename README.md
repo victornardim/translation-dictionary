@@ -11,14 +11,14 @@ Ideal for personal use/study or teams with diversity, where the members don't sp
 * Add new expressions with how many translations you like, in the languages you want. Optionally you can set the singular and plural of the translation, if the plural is irregular.
 
 **e.g.:**
-```
+
 | Singular | Plural |
 |----------|--------|
 | Wolf     | Wolves |
 | Man      | Men    |
 | Foot     | Feet   |
 | Fish     | Fish   |
-```
+
 
 <br />
 
