@@ -9,7 +9,7 @@ Ideal for personal use/study or teams with diversity, where the members don't sp
 -----
 <p float="left">
     <img src="https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg" title="Node.js" height="70px" width="170px"/>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;
     <img src="https://angular.io/assets/images/logos/angular/angular.svg" title="Angular" height="100px" width="100px"/>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <img src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" title="TypeORM" height="70px" width="170px"/>
