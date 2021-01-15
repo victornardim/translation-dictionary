@@ -3,4 +3,6 @@ export interface Settings {
     useExpressions: boolean;
     useTranslations: boolean;
     useTranslationsPlural: boolean;
+    expressionsToLowerCase: boolean;
+    wordDescriptionTemplate: string;
 }

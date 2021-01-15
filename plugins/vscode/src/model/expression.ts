@@ -1,9 +1,8 @@
-import { ExpressionType } from './expression-type.enum';
 
 export interface Expression {
     value: string;
-    plural: string;
+    original: string;
     language: string;
     isPlural: boolean;
-    type: ExpressionType;
+    type: string;
 }

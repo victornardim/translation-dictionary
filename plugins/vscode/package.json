@@ -10,15 +10,12 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:vscode.init"
+		"onCommand:vscode.searchExpression",
+		"onCommand:vscode.openSettingsFile"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
-			{
-				"command": "vscode.init",
-				"title": "Translation dictionary"
-			},
 			{
 				"command": "vscode.openSettingsFile",
 				"title": "Translation dictionary: open settings file"
@@ -27,7 +24,7 @@
 		"keybindings": [
 			{
 				"command": "vscode.searchExpression",
-				"key": "alt+f2"
+				"key": "ctrl+shift+t"
 			}
 		]
 	},

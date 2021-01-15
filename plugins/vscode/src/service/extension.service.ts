@@ -1,19 +1,19 @@
 import { ExtensionDao } from '../dao/extension.dao';
 import { Expression } from '../model/expression';
-import { SettingsService } from './settings.service';
+import { Settings } from '../model/settings';
 
 export class ExtensionService {
     private dao: ExtensionDao;
-    private settingsService: SettingsService;
+    private settings: Settings;
 
     constructor() {
         this.dao = new ExtensionDao();
-        this.settingsService = <any>null;
+        this.settings = <any>null;
     }
 
-    public init(settingsService: SettingsService) {
-        this.settingsService = settingsService;
-        this.dao.init(this.settingsService.getSettings());
+    public async init(settings: Settings) {
+        this.settings = settings;
+        await this.dao.init(this.settings);
     }
 
     public async getExpressions(filter: string): Promise<Expression[]> {
@@ -21,8 +21,8 @@ export class ExtensionService {
 
         return rows.map((row: any) => {
             return {
-                value: row.value,
-                plural: row.plural,
+                value: (this.settings.expressionsToLowerCase) ? row.value.toLowerCase() : row.value,
+                original: row.original,
                 language: row.language,
                 isPlural: row.isPlural,
                 type: row.type

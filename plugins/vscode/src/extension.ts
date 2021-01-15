@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { Expression } from './model/expression';
 import { ExtensionService } from './service/extension.service';
 import { SettingsService } from './service/settings.service';
 
@@ -8,34 +9,38 @@ let extensionService: ExtensionService;
 let debuggerOutput = vscode.window.createOutputChannel('Translation dictionary (Debugger)');
 
 export function activate(context: vscode.ExtensionContext) {
-	const disposable = vscode.commands.registerCommand('vscode.init', async () => {
-		settingsService = new SettingsService();
-		await settingsService.init();
+	init();
 
-		extensionService = new ExtensionService();
-		extensionService.init(settingsService);
-
-		vscode.window.showInformationMessage('Welcome to the translation dictionary extension!');
+	vscode.commands.registerCommand('vscode.openSettingsFile', async () => {
+		openSettingsFile();
 	});
 
-	context.subscriptions.push(disposable);
-
-	const searchMessage = vscode.commands.registerCommand('vscode.searchExpression', async () => {
+	vscode.commands.registerCommand('vscode.searchExpression', async () => {
 		try {
 			await searchExpression();
 		} catch (ex) {
 			vscode.window.showErrorMessage(ex);
 		}
 	});
+}
 
-	context.subscriptions.push(searchMessage);
+async function init() {
+	try {
+		settingsService = new SettingsService();
+		await settingsService.init();
 
-	vscode.commands.registerCommand('vscode.openSettingsFile', async () => {
-		vscode.workspace.openTextDocument(settingsService.getUri())
-			.then((doc: vscode.TextDocument) => {
-				vscode.window.showTextDocument(doc, 1, false);
-			});
-	});
+		extensionService = new ExtensionService();
+		await extensionService.init(settingsService.getSettings());
+	} catch (ex) {
+		vscode.window.showErrorMessage(ex.message);
+	}
+}
+
+async function openSettingsFile() {
+	vscode.workspace.openTextDocument(settingsService.getUri())
+		.then((doc: vscode.TextDocument) => {
+			vscode.window.showTextDocument(doc, 1, false);
+		});
 }
 
 async function searchExpression() {
@@ -57,18 +62,47 @@ async function searchExpression() {
 async function getPickOptions(filter: string): Promise<vscode.QuickPickItem[]> {
 	const expressions = await extensionService.getExpressions(filter);
 
-	return expressions.map((item: any) => {
+	return expressions.map((expression: Expression) => {
 		return {
-			"label": item.value,
-			description: `(${item.type.toLowerCase()} - ${item.language}) ${item.isPlural ? '[plural]' : ''}`
+			label: expression.value,
+			description: getPickOptionDescription(expression)
 		};
 	});
+}
+
+function getPickOptionDescription(expression: Expression): string {
+	const settings = settingsService.getSettings();
+
+	if (!settings.wordDescriptionTemplate) {
+		let description = `${expression.type.toLowerCase()} `;
+
+		if (expression.type === 'TRANSLATION') {
+			description += `of "${expression.original}" `
+		}
+
+		description += `in ${expression.language} `;
+
+		if (!!expression.isPlural) {
+			description += 'in the plural';
+		}
+
+		return description;
+	}
+
+	return settings.wordDescriptionTemplate
+		.replace(/%V/g, expression.value)
+		.replace(/%P/g, expression.isPlural ? 'plural' : '')
+		.replace(/%O/g, expression.original)
+		.replace(/%L/g, expression.language)
+		.replace(/%T/g, expression.type)
+		.replace(/%t/g, expression.type.toLowerCase())
+		.replace(/\s{2,}/g, ' ');
 }
 
 function getWord() {
 	const editor = vscode.window.activeTextEditor;
 
-	if (editor) {
+	if (!!editor) {
 		const document = editor.document;
 		const selection = editor.selections[0];
 		const range = selection.isEmpty ? document.getWordRangeAtPosition(selection.start) || selection : selection;
@@ -82,13 +116,12 @@ function getWord() {
 function insertExpression(word: string) {
 	const editor = vscode.window.activeTextEditor;
 
-	if (editor) {
+	if (!!editor) {
 		const document = editor.document;
 		editor.edit(editBuilder => {
-			editor.selections.forEach(sel => {
-				const range = sel.isEmpty ? document.getWordRangeAtPosition(sel.start) || sel : sel;
-				editBuilder.replace(range, word);
-			})
+			const selection = editor.selections[0];
+			const range = selection.isEmpty ? document.getWordRangeAtPosition(selection.start) || selection : selection;
+			editBuilder.replace(range, word);
 		})
 	}
 }

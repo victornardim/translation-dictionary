@@ -1,4 +1,4 @@
-import { resolve } from 'dns';
+import { Settings } from '../model/settings';
 
 const path = require('path');
 const fs = require('fs');
@@ -8,7 +8,7 @@ export class SettingsDao {
 
     public async init() {
         if (!fs.existsSync(this.getUri())) {
-            await this.create();
+            await this.createFile();
         }
     }
 
@@ -16,17 +16,26 @@ export class SettingsDao {
         return path.join(__dirname, '..', 'settings.json');
     }
 
-    public getSettings() {
+    public getSettings(): Settings {
         return JSON.parse(fs.readFileSync(this.getUri()));
     }
 
-    private async create(): Promise<any> {
-        const content = '{\n\t"databasePath": null,\n\t"useExpressionsInQuery": true,\n\t"useTranslationsInQuery": true\n\t"useTranslationsPlural": true\n}';
-
+    private async createFile(): Promise<any> {
         return new Promise((resolve, reject) => {
-            fs.writeFile(this.getUri(), content, () => {
+            fs.writeFile(this.getUri(), this.getFileContent(), () => {
                 resolve(null);
             });
         });
+    }
+
+    private getFileContent(): string {
+        return JSON.stringify({
+            "databasePath": null,
+            "useExpressions": true,
+            "useTranslations": true,
+            "useTranslationsPlural": true,
+            "expressionsToLowerCase": false,
+            "wordDescriptionTemplate": null
+        }, null, 4);
     }
 }

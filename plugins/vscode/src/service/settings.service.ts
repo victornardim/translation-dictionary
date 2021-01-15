@@ -1,4 +1,5 @@
 import { SettingsDao } from '../dao/settings.dao'
+import { Settings } from '../model/settings';
 
 export class SettingsService {
     private dao: SettingsDao;
@@ -15,7 +16,7 @@ export class SettingsService {
         return this.dao.getUri();
     }
 
-    public getSettings() {
+    public getSettings(): Settings {
         return this.dao.getSettings();
     }
 }

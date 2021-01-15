@@ -1,6 +1,8 @@
+import * as vscode from 'vscode';
 import { Database } from 'sqlite3';
 import { Expression } from '../model/expression';
 import { Settings } from '../model/settings';
+
 const path = require('path');
 
 export class ExtensionDao {
@@ -12,20 +14,24 @@ export class ExtensionDao {
         this.settings = <any>null;
     }
 
-    public init(settings: Settings) {
-        this.settings = settings;
+    public async init(settings: Settings): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.settings = settings;
 
-        let databasePath = settings.databasePath;
+            let databasePath = settings.databasePath;
 
-        if (!databasePath) {
-            databasePath = path.join(__dirname, '..', '..', '..', '..', 'server', 'src', 'database', 'database.sqlite')
-        }
+            if (!databasePath) {
+                databasePath = path.join(__dirname, '..', '..', '..', '..', 'server', 'src', 'database', 'database.sqlite')
+            }
 
-        this.database = new Database(databasePath);
+            this.database = new Database(databasePath, (err) => {
+                if (!!err) {
+                    reject(new Error(`Database "${databasePath}" can\'t be loaded.`));
+                }
 
-        if (!this.database) {
-            throw Error(`Database ${databasePath} can\'t be loaded`);
-        }
+                resolve(null);
+            });
+        });
     }
 
     public getExpressions(filter: string): Promise<Expression[]> {
@@ -61,7 +67,7 @@ export class ExtensionDao {
     private getExpressionsQuery(filter: string): string {
         return `
             SELECT
-                value, source_language as language, 'EXPRESSION' as type, false as isPlural
+                value, '' as original, source_language as language, 'EXPRESSION' as type, false as isPlural
             FROM
                 expressions
             WHERE
@@ -72,23 +78,31 @@ export class ExtensionDao {
     private getTranslationsQuery(filter: string): string {
         return `
             SELECT
-                value, language, 'TRANSLATION' as type, false as isPlural
+                t.value, e.value as original, t.language, 'TRANSLATION' as type, false as isPlural
             FROM
-                translations
+                translations as t
+            INNER JOIN
+                expressions as e
+            ON
+                t.expression_id = e.id
             WHERE
-                value LIKE('${filter}%')
+                t.value LIKE('${filter}%')
         `;
     }
 
     private getTranslationsPluralQuery(filter: string): string {
         return `
             SELECT
-                plural as value, language, 'TRANSLATION' as type, true as isPlural
+                t.plural as value, e.value as original, t.language, 'TRANSLATION' as type, true as isPlural
             FROM
-                translations
+                translations as t
+            INNER JOIN
+                expressions as e
+            ON
+                t.expression_id = e.id
             WHERE
-                plural <> ''
-                AND plural LIKE('${filter}%')
+                t.plural <> ''
+                AND t.plural LIKE('${filter}%')
         `;
     }
 }
