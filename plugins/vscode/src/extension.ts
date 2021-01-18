@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { Expression } from './model/expression';
 import { ExtensionService } from './service/extension.service';
 import { SettingsService } from './service/settings.service';
+import { WordDescriptionTemplateParser } from './util/word-description-template.parser';
 
 let settingsService: SettingsService;
 let extensionService: ExtensionService;
@@ -73,30 +74,13 @@ async function getPickOptions(filter: string): Promise<vscode.QuickPickItem[]> {
 function getPickOptionDescription(expression: Expression): string {
 	const settings = settingsService.getSettings();
 
+	const parser = new WordDescriptionTemplateParser();
+
 	if (!settings.wordDescriptionTemplate) {
-		let description = `${expression.type.toLowerCase()} `;
-
-		if (expression.type === 'TRANSLATION') {
-			description += `of "${expression.original}" `
-		}
-
-		description += `in ${expression.language} `;
-
-		if (!!expression.isPlural) {
-			description += 'in the plural';
-		}
-
-		return description;
+		return parser.parse('%t %{of }%O %o in %L %{in the }%P %p', expression);
 	}
 
-	return settings.wordDescriptionTemplate
-		.replace(/%V/g, expression.value)
-		.replace(/%P/g, expression.isPlural ? 'plural' : '')
-		.replace(/%O/g, expression.original)
-		.replace(/%L/g, expression.language)
-		.replace(/%T/g, expression.type)
-		.replace(/%t/g, expression.type.toLowerCase())
-		.replace(/\s{2,}/g, ' ');
+	return parser.parse(settings.wordDescriptionTemplate, expression);
 }
 
 function getWord() {

@@ -1,4 +1,3 @@
-import * as vscode from 'vscode';
 import { Database } from 'sqlite3';
 import { Expression } from '../model/expression';
 import { Settings } from '../model/settings';
