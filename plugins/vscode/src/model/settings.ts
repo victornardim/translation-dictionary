@@ -4,5 +4,7 @@ export interface Settings {
     useTranslations: boolean;
     useTranslationsPlural: boolean;
     expressionsToLowerCase: boolean;
+    removeAccents: boolean;
+    trimSpaces: boolean;
     wordDescriptionTemplate: string;
 }

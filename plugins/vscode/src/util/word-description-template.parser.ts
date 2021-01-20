@@ -1,4 +1,6 @@
 import { Expression } from '../model/expression';
+import { ExpressionPropertyCode } from '../model/enum/expression-property-code.enum';
+import { ExpressionProperty } from '../model/enum/expression-property.enum';
 import { TemplateMatch } from './tempalate-match';
 
 export class WordDescriptionTemplateParser {
@@ -13,10 +15,10 @@ export class WordDescriptionTemplateParser {
 
         let match = this.match(template);
         while (!!match) {
-            if (this.propertyIsPlural(match.property)) {
-                this.getPluralDescription(match);
-            } else if (this.propertyIsOriginal(match.property)) {
-                this.getOriginalDescription(match);
+            if (match.property === ExpressionPropertyCode.PLURAL) {
+                this.replaceMatchExpressionForPhrase(match, ExpressionProperty.PLURAL);
+            } else if (match.property === ExpressionPropertyCode.ORIGINAL) {
+                this.replaceMatchExpressionForPhrase(match, ExpressionProperty.ORIGINAL);
             }
 
             match = this.match(template);
@@ -39,27 +41,11 @@ export class WordDescriptionTemplateParser {
         }
     }
 
-    private propertyIsPlural(property: string) {
-        return (property === '%P');
-    }
-
-    private getPluralDescription(match: TemplateMatch) {
-        if (!this.expression.isPlural) {
+    private replaceMatchExpressionForPhrase(match: TemplateMatch, property: ExpressionProperty) {
+        if (!this.expression[property]) {
             this.description = this.description.replace(new RegExp(match.expression), '');
         } else {
             this.description = this.description.replace(new RegExp(match.expression), `${match.phrase}`);
-        }
-    }
-
-    private propertyIsOriginal(property: string) {
-        return (property === '%O');
-    }
-
-    private getOriginalDescription(match: TemplateMatch) {
-        if (!this.expression.original) {
-            this.description = this.description.replace(new RegExp(match.expression), '');
-        } else {
-            this.description = this.description.replace(new RegExp(match.expression), `${match.phrase}`)
         }
     }
 

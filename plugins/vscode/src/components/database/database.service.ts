@@ -1,13 +1,13 @@
-import { ExtensionDao } from '../dao/extension.dao';
-import { Expression } from '../model/expression';
-import { Settings } from '../model/settings';
+import { DatabaseDao } from './database.dao';
+import { Expression } from '../../model/expression';
+import { Settings } from '../../model/settings';
 
-export class ExtensionService {
-    private dao: ExtensionDao;
+export class DatabaseService {
+    private dao: DatabaseDao;
     private settings: Settings;
 
     constructor() {
-        this.dao = new ExtensionDao();
+        this.dao = new DatabaseDao();
         this.settings = <any>null;
     }
 
@@ -21,7 +21,7 @@ export class ExtensionService {
 
         return rows.map((row: any) => {
             return {
-                value: (this.settings.expressionsToLowerCase) ? row.value.toLowerCase() : row.value,
+                value: row.value,
                 original: row.original,
                 language: row.language,
                 isPlural: row.isPlural,

@@ -1,10 +1,10 @@
 import { Database } from 'sqlite3';
-import { Expression } from '../model/expression';
-import { Settings } from '../model/settings';
+import { Expression } from '../../model/expression';
+import { Settings } from '../../model/settings';
 
 const path = require('path');
 
-export class ExtensionDao {
+export class DatabaseDao {
     private database: Database;
     private settings: Settings;
 
@@ -20,12 +20,12 @@ export class ExtensionDao {
             let databasePath = settings.databasePath;
 
             if (!databasePath) {
-                databasePath = path.join(__dirname, '..', '..', '..', '..', 'server', 'src', 'database', 'database.sqlite')
+                databasePath = path.join(__dirname, '..', '..', '..', '..', '..', 'server', 'src', 'database', 'database.sqlite')
             }
 
             this.database = new Database(databasePath, (err) => {
                 if (!!err) {
-                    reject(new Error(`Database "${databasePath}" can\'t be loaded.`));
+                    throw new Error(`Database "${databasePath}" can\'t be loaded.`);
                 }
 
                 resolve(null);
@@ -37,7 +37,7 @@ export class ExtensionDao {
         return new Promise((resolve, reject) => {
             this.database.all(this.getQuery(filter), [], (err: Error, rows: any[]) => {
                 if (err) {
-                    reject(err.message);
+                    throw err;
                 }
 
                 resolve(rows);

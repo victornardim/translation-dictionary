@@ -1,15 +1,18 @@
 import * as vscode from 'vscode';
-import { Expression } from './model/expression';
-import { ExtensionService } from './service/extension.service';
-import { SettingsService } from './service/settings.service';
-import { WordDescriptionTemplateParser } from './util/word-description-template.parser';
+import { SettingsService } from './components/settings/settings.service';
+import { PickerController } from './components/picker/picker.controller';
 
 let settingsService: SettingsService;
-let extensionService: ExtensionService;
+let pickerController: PickerController;
 
 let debuggerOutput = vscode.window.createOutputChannel('Translation dictionary (Debugger)');
 
 export function activate(context: vscode.ExtensionContext) {
+	process.on('uncaughtException', (error: Error) => {
+		vscode.window.showErrorMessage(error.message);
+		console.log(error);
+	});
+
 	init();
 
 	vscode.commands.registerCommand('vscode.openSettingsFile', async () => {
@@ -18,9 +21,11 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand('vscode.searchExpression', async () => {
 		try {
-			await searchExpression();
+			await pickerController.createPicker(getWord(), (selection: string) => {
+				insertExpression(selection);
+			});
 		} catch (ex) {
-			vscode.window.showErrorMessage(ex);
+			vscode.window.showErrorMessage(ex.message);
 		}
 	});
 }
@@ -30,8 +35,8 @@ async function init() {
 		settingsService = new SettingsService();
 		await settingsService.init();
 
-		extensionService = new ExtensionService();
-		await extensionService.init(settingsService.getSettings());
+		pickerController = new PickerController();
+		pickerController.init(settingsService.getSettings());
 	} catch (ex) {
 		vscode.window.showErrorMessage(ex.message);
 	}
@@ -42,45 +47,6 @@ async function openSettingsFile() {
 		.then((doc: vscode.TextDocument) => {
 			vscode.window.showTextDocument(doc, 1, false);
 		});
-}
-
-async function searchExpression() {
-	const pick = vscode.window.createQuickPick();
-
-	pick.items = await getPickOptions(getWord());
-
-	pick.onDidChangeSelection(selection => {
-		if (!!selection[0].label) {
-			insertExpression(String(selection[0].label));
-			pick.dispose();
-		}
-	});
-
-	pick.onDidHide(() => pick.dispose());
-	pick.show();
-}
-
-async function getPickOptions(filter: string): Promise<vscode.QuickPickItem[]> {
-	const expressions = await extensionService.getExpressions(filter);
-
-	return expressions.map((expression: Expression) => {
-		return {
-			label: expression.value,
-			description: getPickOptionDescription(expression)
-		};
-	});
-}
-
-function getPickOptionDescription(expression: Expression): string {
-	const settings = settingsService.getSettings();
-
-	const parser = new WordDescriptionTemplateParser();
-
-	if (!settings.wordDescriptionTemplate) {
-		return parser.parse('%t %{of }%O %o in %L %{in the }%P %p', expression);
-	}
-
-	return parser.parse(settings.wordDescriptionTemplate, expression);
 }
 
 function getWord() {
@@ -98,16 +64,52 @@ function getWord() {
 }
 
 function insertExpression(word: string) {
+	let wordToInsert = word;
 	const editor = vscode.window.activeTextEditor;
 
 	if (!!editor) {
+		const settings = settingsService.getSettings();
+
 		const document = editor.document;
 		editor.edit(editBuilder => {
 			const selection = editor.selections[0];
 			const range = selection.isEmpty ? document.getWordRangeAtPosition(selection.start) || selection : selection;
-			editBuilder.replace(range, word);
+
+			if (settings.expressionsToLowerCase) {
+				wordToInsert = wordToInsert.toLowerCase();
+			}
+
+			if (settings.trimSpaces) {
+				wordToInsert = trimSpaces(wordToInsert);
+			}
+
+			if (settings.removeAccents) {
+				wordToInsert = removeAccents(wordToInsert);
+			}
+
+			editBuilder.replace(range, wordToInsert);
 		})
 	}
+}
+
+function trimSpaces(wordToTrim: string): string {
+	const words = wordToTrim.split(' ');
+
+	if (words.length > 1) {
+		return words.map((word, idx) => {
+			if (idx === 0) {
+				return word.toLowerCase();
+			} else {
+				return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+			}
+		}).join('');
+	}
+
+	return wordToTrim;
+}
+
+function removeAccents(word: string) {
+	return word.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 export function deactivate() { }

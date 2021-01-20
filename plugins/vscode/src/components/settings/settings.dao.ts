@@ -1,4 +1,4 @@
-import { Settings } from '../model/settings';
+import { Settings } from '../../model/settings';
 
 const path = require('path');
 const fs = require('fs');
@@ -13,7 +13,7 @@ export class SettingsDao {
     }
 
     public getUri() {
-        return path.join(__dirname, '..', 'settings.json');
+        return path.join(__dirname, '..', '..', 'settings.json');
     }
 
     public getSettings(): Settings {
@@ -35,6 +35,8 @@ export class SettingsDao {
             "useTranslations": true,
             "useTranslationsPlural": true,
             "expressionsToLowerCase": false,
+            "trimSpaces": true,
+            "removeAccents": true,
             "wordDescriptionTemplate": null
         }, null, 4);
     }

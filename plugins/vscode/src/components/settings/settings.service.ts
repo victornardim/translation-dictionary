@@ -1,5 +1,5 @@
-import { SettingsDao } from '../dao/settings.dao'
-import { Settings } from '../model/settings';
+import { SettingsDao } from './settings.dao'
+import { Settings } from '../../model/settings';
 
 export class SettingsService {
     private dao: SettingsDao;
