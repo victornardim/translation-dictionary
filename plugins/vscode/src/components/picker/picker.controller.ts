@@ -9,8 +9,8 @@ export class PickerController {
         this.pickerService = new PickerService();
     }
 
-    public init(settings: Settings) {
-        this.pickerService.init(settings);
+    public async init(settings: Settings) {
+        await this.pickerService.init(settings);
     }
 
     public async createPicker(filter: string, onSelect: Function) {

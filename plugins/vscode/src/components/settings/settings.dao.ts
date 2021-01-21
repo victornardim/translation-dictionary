@@ -13,7 +13,7 @@ export class SettingsDao {
     }
 
     public getUri() {
-        return path.join(__dirname, '..', '..', 'settings.json');
+        return path.join(__dirname, '..', '..', 'tdsettings.json');
     }
 
     public getSettings(): Settings {
@@ -34,10 +34,12 @@ export class SettingsDao {
             "useExpressions": true,
             "useTranslations": true,
             "useTranslationsPlural": true,
-            "expressionsToLowerCase": false,
-            "trimSpaces": true,
-            "removeAccents": true,
-            "wordDescriptionTemplate": null
+            "wordDescriptionTemplate": null,
+            "expression": {
+                "toLowerCase": false,
+                "trimSpaces": true,
+                "removeAccents": true
+            }
         }, null, 4);
     }
 }

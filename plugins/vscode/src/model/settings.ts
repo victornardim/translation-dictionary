@@ -3,8 +3,12 @@ export interface Settings {
     useExpressions: boolean;
     useTranslations: boolean;
     useTranslationsPlural: boolean;
-    expressionsToLowerCase: boolean;
+    wordDescriptionTemplate: string;
+    expression: Expression;
+}
+
+interface Expression {
+    toLowerCase: boolean;
     removeAccents: boolean;
     trimSpaces: boolean;
-    wordDescriptionTemplate: string;
 }

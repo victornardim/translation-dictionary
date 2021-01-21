@@ -25,7 +25,7 @@ export class DatabaseDao {
 
             this.database = new Database(databasePath, (err) => {
                 if (!!err) {
-                    throw new Error(`Database "${databasePath}" can\'t be loaded.`);
+                    throw new Error(`TRANSLATION_DICTIONARY: Database "${databasePath}" can\'t be loaded.`);
                 }
 
                 resolve(null);
