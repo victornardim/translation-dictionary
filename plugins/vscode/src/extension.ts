@@ -13,11 +13,11 @@ export function activate(context: vscode.ExtensionContext) {
 	handleErrors();
 	init();
 
-	vscode.commands.registerCommand('vscode.openSettingsFile', async () => {
+	vscode.commands.registerCommand('translation_dictionary.openSettingsFile', async () => {
 		openSettingsFile();
 	});
 
-	vscode.commands.registerCommand('vscode.searchExpression', async () => {
+	vscode.commands.registerCommand('translation_dictionary.searchExpression', async () => {
 		try {
 			await pickerController.createPicker(textEditorController.getSelectedWord(), (selection: string) => {
 				textEditorController.insertExpression(selection);

@@ -38,7 +38,7 @@ export class WordDescriptionTemplateParser {
             "expression": regex[0],
             "phrase": regex[1],
             "property": regex[2]
-        }
+        };
     }
 
     private replaceMatchExpressionForPhrase(match: TemplateMatch, property: ExpressionProperty) {

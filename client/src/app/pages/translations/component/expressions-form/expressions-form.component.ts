@@ -82,13 +82,7 @@ export class ExpressionsFormModalComponent implements OnInit, OnDestroy {
     }
 
     public changeLanguageSelect() {
-        this.selectedLanguages.forEach(language => language.disabled = false);
-
-        const sourceLanguage = this.form.controls.sourceLanguage.value;
-
-        if (!!sourceLanguage) {
-            this.selectLanguage(sourceLanguage);
-        }
+        this.resetSelectedLanguages();
 
         this.getTranslationsFormArray().controls.forEach(translation => {
             const language = translation.value.language;
@@ -98,6 +92,16 @@ export class ExpressionsFormModalComponent implements OnInit, OnDestroy {
         });
 
         this.selectedLanguages = [...this.selectedLanguages];
+    }
+
+    private resetSelectedLanguages() {
+        this.selectedLanguages.forEach(language => language.disabled = false);
+
+        const sourceLanguage = this.form.controls.sourceLanguage.value;
+
+        if (!!sourceLanguage) {
+            this.selectLanguage(sourceLanguage);
+        }
     }
 
     private selectLanguage(language: string) {
@@ -164,6 +168,7 @@ export class ExpressionsFormModalComponent implements OnInit, OnDestroy {
     private resetForm() {
         this.form.controls.expression.reset();
         this.resetNewTranslations();
+        this.resetSelectedLanguages();
     }
 
     private resetNewTranslations() {

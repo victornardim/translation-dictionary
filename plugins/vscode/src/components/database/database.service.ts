@@ -26,7 +26,7 @@ export class DatabaseService {
                 language: row.language,
                 isPlural: row.isPlural,
                 type: row.type
-            } as Expression
+            } as Expression;
         });
     }
 }

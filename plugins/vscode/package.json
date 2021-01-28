@@ -1,6 +1,6 @@
 {
-	"name": "vscode",
-	"displayName": "vscode",
+	"name": "translation_dictionary",
+	"displayName": "translation_dictionary",
 	"description": "An integration of translation dictionary for VS Code",
 	"version": "0.0.1",
 	"engines": {
@@ -10,20 +10,20 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:vscode.searchExpression",
-		"onCommand:vscode.openSettingsFile"
+		"onCommand:translation_dictionary.searchExpression",
+		"onCommand:translation_dictionary.openSettingsFile"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "vscode.openSettingsFile",
+				"command": "translation_dictionary.openSettingsFile",
 				"title": "Translation dictionary: open settings file"
 			}
 		],
 		"keybindings": [
 			{
-				"command": "vscode.searchExpression",
+				"command": "translation_dictionary.searchExpression",
 				"key": "ctrl+alt+t"
 			}
 		]
