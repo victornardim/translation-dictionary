@@ -1,4 +1,11 @@
 # Translation dictionary
+[![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)](https://angular.io/)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+[![Font Awesome](https://img.shields.io/badge/Font_Awesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white)](https://fontawesome.com/)
+[![NodeJS](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![ExpressJS](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/index.html)
+
 An app for an internal control of foreign sentences.
 
 Ideal for personal use/study or teams with diversity, where the members don't speak fluently the team main language.
@@ -19,9 +26,6 @@ Ideal for personal use/study or teams with diversity, where the members don't sp
 | Foot     | Feet   |
 | Fish     | Fish   |
 
-
-<br />
-
 * Select the languages you want to see the translations in the main table, or simply click on the details button, and see the description of the expression, and all the translations in all the languages it has.
 
 * Filter by the expression or the translation. The filter is not case-sensitive, but is accent-sensitive.
@@ -33,24 +37,7 @@ secretária !== secretaria
 vOiLà === voilà
 ```
 
-<br />
-
-### Technologies used
------
-<p float="left">
-    <img src="https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg" title="Node.js" height="70px" width="170px"/>
-    <img src="https://angular.io/assets/images/logos/angular/angular.svg" title="Angular" height="100px" width="100px"/>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" title="TypeORM" height="70px" width="170px"/>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://getbootstrap.com.br/docs/4.1/assets/img/bootstrap-stack.png" title="Bootstrap" height="90px" width="130px"/>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <img src="https://www.sqlite.org/images/sqlite370_banner.gif" title="SQLite" height="70px" width="170px"/>
-</p>
-
------
-
-<br />
+## Project setup
 
 If it is the first execution, you must follow this steps:
 1. cd client
